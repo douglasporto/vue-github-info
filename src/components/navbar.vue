@@ -7,16 +7,17 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">VUE-GITHUB-INFO</a>
+        <!-- <a class="navbar-brand" href="/">VUE-GITHUB-INFO</a> -->
+        <router-link class="navbar-brand" to="/">VUE-GITHUB-INFO</router-link>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active">
-            <a><i class="icon-search icon-white"></i> Search</a>
-          </li>
-          <li class="">
-            <a href="/about"><i class="icon-question-sign icon-white"></i> About</a>
-          </li>
+          <!-- <li> -->
+            <router-link tag='li' exact-active-class='active' to="/"><a>Search</a></router-link>
+          <!-- </li>
+          <li> -->
+            <router-link tag='li' exact-active-class='active' to="/about"><a>About</a></router-link>
+          <!-- </li> -->
         </ul>
       </div><!--/.nav-collapse -->
     </div>

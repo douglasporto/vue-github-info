@@ -1,5 +1,6 @@
 #app {
   margin-top: 60px;
+  margin-bottom: 60px;
 }
 li{
 	list-style: none;
@@ -19,7 +20,7 @@ li{
 	}
 }
 .nickname {
-	display: inline-block;	
+	display: inline-block;
 	padding-left: 30px;
 	.login{
 		margin-top: 0px !important;
@@ -34,6 +35,7 @@ li{
     	float: left;
 	    text-align: center;
 	    padding: 10px;
+      vertical-align: middle;
     }
 	}
 }
@@ -51,12 +53,22 @@ li{
     color: #667;
     width: auto;
   }
+  .updated {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
 }
 .count {
 	display: inline;
 	li {
   	float: left;
     text-align: center;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    margin-bottom: 0px;
   }
+}
+.language {
+  margin-top: 30px;
+  margin-bottom: 10px;
 }

@@ -37,36 +37,50 @@
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="repositories">
             <div class="row repo"  v-for='(r, index) in repos'>
-              <div class="col-md-6">
-                <h4><a>{{ r.name }}</a></h4>
-                <span class="visible-desktop line-desc">{{ r.description || 'No Information' }}</span>
+              <div class="col-md-4">
+                <h4><a :href="r.html_url" target="_blank">{{ r.name }}</a> </h4>
+                <span class="visible-desktop line-desc">
+                  {{ r.description || 'No Information' }}
+                </span>
               </div>
-              <div class="col-md-2">
-                {{ r.language }}
+              <div class="col-md-3">
+                <div class="updated">
+                  <small>Updated: {{getUp(r.updated_at)}}</small>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="language">
+                  {{ r.language }}
+                </div>
               </div>
               <div class="col-md-2 pull-right">
                 <ul class="count">
-                  <li>0 <br>Watchers</li>
-                  <li>0 <br>Forks</li>
+                  <li><b>{{r.watchers_count}}</b><br><small>Watchers</small></li>
+                  <li><b>{{r.forks_count}}</b><br><small>Forks</small></li>
                 </ul>
-                <!-- <ul><li class="lang"><b class="ng-binding"></b></li><li class="watchers"><b class="ng-binding">0</b> <span><ng-pluralize count="repo.watchers" when="vm.watchForms">Watchers</ng-pluralize></span></li><li class="forks"><b class="ng-binding">0</b> <span><ng-pluralize count="repo.forks" when="vm.forkForms">Forks</ng-pluralize></span></li></ul> -->
               </div>
             </div>
-            <!-- <table class="table-striped">
-              <tbody>
-                <tr v-for='(r, index) in repos'>
-                    <td>
-                      {{ r.name }}
-                    </td>
-                    <td>aaa</td>
-                </tr>
-              </tbody>
-            </table> -->
-            {{ repos }}
           </div>
           <div role="tabpanel" class="tab-pane" id="gists">
-            {{ github }}
-          </div>          
+            <div class="row repo"  v-for='(g, index) in gists'>
+              <div class="col-md-4">
+                <h4><a :href="g.html_url" target="_blank">{{ getFile(g.files).filename }}</a> </h4>
+                <span class="visible-desktop line-desc">
+                  {{ g.description || 'No Information' }}
+                </span>
+              </div>
+              <div class="col-md-3">
+                <div class="updated">
+                  <small>Updated: {{getUp(g.updated_at)}}</small>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="language">
+                  {{ g.language }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -74,18 +88,37 @@
 </template>
 <script>
   import http from 'src/http'
+  import { orderBy } from 'lodash'
   export default {
     name: 'user',
     data () {
       return {
         github: [],
-        repos: []
+        repos: [],
+        gists: []
+      }
+    },
+    methods: {
+      getUp: function (date) {
+        var newDate = date.split('T')
+        return newDate[0]
+      },
+      getFile: function (files) {
+        for (var key in files) {
+          return files[key]
+        }
       }
     },
     mounted: function () {
       let api = 'https://api.github.com/users/' + this.$route.params.user
-      http.get(api).then(response => response.data).then(data => { this.github = data })
-      http.get(api + '/repos').then(response => response.data).then(data => { this.repos = data })
+      http.get(api).then(response => response.data).then(data => {
+        this.github = data
+        console.log(data)
+      })
+      http.get(api + '/repos').then(response => response.data).then(data => {
+        this.repos = orderBy(data, 'updated_at', ['desc'])
+      })
+      http.get(api + '/gists').then(response => response.data).then(data => { this.gists = data })
     }
   }
 </script>
