@@ -6,10 +6,10 @@
 
           <div class="input-group">
             <input
-              type="text" class="form-control" id="searchField"
+              type="text" class="form-control" v-model="user"
               placeholder="ex.: douglasporto">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="submit">
+              <button class="btn btn-default" @click="searchUser()">
                 <i class="glyphicon glyphicon-search"></i> Search
               </button>
             </span>
@@ -22,6 +22,18 @@
   </div>
 </template>
 <script>
-  export default {}
+  export default {
+    name: 'search',
+    data () {
+      return {
+        user: ''
+      }
+    },
+    methods: {
+      searchUser: function searchUser () {
+        var gitHub = this.user || 'douglasporto'
+        this.$router.push({ path: '/user/' + gitHub })
+      }
+    }
+  }
 </script>
-
